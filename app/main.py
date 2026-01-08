@@ -58,20 +58,22 @@ def bag_target_band(p: float) -> str:
 app = FastAPI(
     title="Extra Baggage Propensity API",
     version="1.0.0",
-    description="Predict probability that a booking will buy extra baggage."
+    description="Predict probability that a booking will buy extra baggage.",
 )
 
-# CORS (for later when you add frontend)
-origins = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
-
+# CORS
+# For POC we open it fully. Later you can restrict to your exact domains, e.g.:
+# origins = [
+#     "http://localhost:5173",
+#     "http://127.0.0.1:5173",
+#     "https://<your-frontend>.vercel.app",
+# ]
+# and set allow_origins=origins below.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],         # <-- OPEN for now to fix preflight 400
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["*"],         # allow POST, OPTIONS, etc.
     allow_headers=["*"],
 )
 
